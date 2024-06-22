@@ -14,10 +14,9 @@ class CustomUser(AbstractUser):
     fecha_nacimiento = models.DateField(null=True, blank=True)
     email = models.EmailField(unique=True)
 
-    # Añade un related_name único para evitar conflictos
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='customuser_set',  # Cambia 'customuser_set' por el nombre que prefieras
+        related_name='customuser_set',  
         blank=True,
         verbose_name='groups',
         help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',

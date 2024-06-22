@@ -40,7 +40,7 @@ class CustomAuthToken(ObtainAuthToken):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
 
-        # Determine the group of the user
+        # Discriminar por grupos
         if user.groups.filter(name='admin_group').exists():
             redirect_url = '/admin_group/'
             print(redirect_url)
@@ -72,7 +72,6 @@ class PacienteListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        # Aquí puedes realizar cualquier lógica adicional antes de guardar el usuario
         serializer.save()
 
 class PacienteRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -81,15 +80,13 @@ class PacienteRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_update(self, serializer):
-        # Aquí puedes realizar cualquier lógica adicional antes de actualizar el usuario
         serializer.save()
 
     def perform_destroy(self, instance):
-        # Aquí puedes realizar cualquier lógica adicional antes de eliminar el usuario
         instance.delete()
 
 
 @csrf_exempt
 def logout(request):
     django_logout(request)
-    return redirect('/')  # Redirige a la página de inicio de sesión después de cerrar sesión
+    return redirect('/')  
